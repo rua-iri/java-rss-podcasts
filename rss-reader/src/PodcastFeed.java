@@ -11,7 +11,7 @@ public class PodcastFeed {
     private String feedContent;
 
     // constructor method
-    PodcastFeed(String feedUrl) {
+    PodcastFeed(String feedUrl, String feedContent) {
 
         this.feedUrl = feedUrl;
         this.feedContent = feedContent;

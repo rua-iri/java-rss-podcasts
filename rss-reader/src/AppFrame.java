@@ -1,7 +1,6 @@
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -49,39 +48,52 @@ public class AppFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        // if button is pressed
         if (e.getSource() == button) {
+
+            // Store box input text
             String boxText = textField.getText();
 
-            System.out.println(boxText);
-
-            PodcastFeed pFeed = new PodcastFeed(boxText);
-
-            System.out.println(pFeed.getFeedContent().substring(0, 100));
-
-            HttpClient podClient = HttpClient.newHttpClient();
-            HttpRequest podRequest = HttpRequest.newBuilder(
-                    URI.create(boxText))
-                    .build();
-
             try {
+
+                // make a request to the server
+                HttpClient podClient = HttpClient.newHttpClient();
+                HttpRequest podRequest = HttpRequest.newBuilder(
+                        URI.create(boxText))
+                        .build();
+
                 var podResponse = podClient.send(podRequest, BodyHandlers.ofString());
 
-                 String heelo = podResponse.body();
+                // store feed content to string and instantiate a new podcast
+                String podFeed = podResponse.body();
+                PodcastFeed pFeed = new PodcastFeed(boxText, podFeed);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                // reset frame and add information from the
+                this.revalidate();
+                this.repaint();
+
+                this.remove(label);
+                this.remove(button);
+                this.remove(textField);
+
+                this.add(new JLabel(pFeed.getFeedContent().substring(0, 100)));
+                this.pack();
+
+
+
+
+
+            } catch (IOException err) {
+                err.printStackTrace();
+            } catch (InterruptedException err) {
+                err.printStackTrace();
+            } catch (IllegalArgumentException err) {
+
+                // TODO create error popup for this
+
+                System.out.println("\n\nError: Invalid URL\n\n");
+
             }
-
-            // reset frame and add information from the
-            this.revalidate();
-            this.repaint();
-
-            this.add(new JLabel("RSS URL"));
-            this.pack();
-
-            // this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 
         }
 
