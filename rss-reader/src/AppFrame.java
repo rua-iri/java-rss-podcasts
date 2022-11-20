@@ -14,6 +14,7 @@ public class AppFrame extends JFrame implements ActionListener{
     JTextField textField;
     JLabel label;
 
+
     AppFrame() {
 
         //set up default functioning for window
@@ -47,7 +48,14 @@ public class AppFrame extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
 
         if(e.getSource()==button) {
-            System.out.println(textField.getText());
+            String boxText = textField.getText();
+
+            System.out.println(boxText);
+
+
+            PodcastFeed pFeed = new PodcastFeed(boxText);
+
+
         }
 
 
