@@ -14,26 +14,11 @@ public class PodcastFeed {
     PodcastFeed(String feedUrl) {
 
         this.feedUrl = feedUrl;
-
-        HttpClient podClient = HttpClient.newHttpClient();
-        HttpRequest podRequest = HttpRequest.newBuilder(
-                URI.create(this.feedUrl))
-                .build();
-
-        try {
-            var podResponse = podClient.send(podRequest, BodyHandlers.ofString());
-
-            this.feedContent = podResponse.body();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        this.feedContent = feedContent;
 
     }
 
-    
+
     // setter and getter methods
     public void setFeedUrl(String feedUrl) {
         this.feedUrl = feedUrl;
