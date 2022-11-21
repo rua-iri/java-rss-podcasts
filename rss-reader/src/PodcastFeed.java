@@ -1,5 +1,7 @@
 
 import java.io.StringReader;
+import java.net.URL;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -14,6 +16,7 @@ public class PodcastFeed {
     private String podName;
     private String[] podEpisodes;
     private String[] podLinks;
+    private URL podIcon;
 
     // constructor method
     PodcastFeed(String feedUrl, String feedContent) {
@@ -35,6 +38,9 @@ public class PodcastFeed {
             //declare the size of these arrays
             this.podEpisodes = new String[this.numEpisodes];
             this.podLinks = new String[this.numEpisodes];
+
+            //set the url for the podcast's icon
+            this.podIcon = new URL(doc.getElementsByTagName("image").item(0).getFirstChild().getTextContent());
 
 
             //iterate through every podcast episode
@@ -101,6 +107,14 @@ public class PodcastFeed {
 
     public void setPodLinks(String[] podLinks) {
         this.podLinks = podLinks;
+    }
+
+    public URL getPodIcon() {
+        return this.podIcon;
+    }
+
+    public void setPodIcon(URL podIcon) {
+        this.podIcon = podIcon;
     }
 
     public String toString() {
