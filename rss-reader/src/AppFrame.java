@@ -68,6 +68,8 @@ public class AppFrame extends JFrame implements ActionListener {
                 String podFeed = podResponse.body();
                 PodcastFeed pFeed = new PodcastFeed(boxText, podFeed);
 
+                
+
                 // reset frame and add information from the
                 this.revalidate();
                 this.repaint();
@@ -76,7 +78,9 @@ public class AppFrame extends JFrame implements ActionListener {
                 this.remove(button);
                 this.remove(textField);
 
-                this.add(new JLabel(pFeed.getFeedContent().substring(0, 100)));
+                this.add(new JLabel(pFeed.getPodName()));
+                this.add(new JLabel(Integer.toString(pFeed.getNumEpisodes())));
+                
                 this.pack();
 
 
