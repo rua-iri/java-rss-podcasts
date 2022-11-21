@@ -1,10 +1,12 @@
 import javax.swing.JFrame;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
@@ -24,6 +26,11 @@ public class AppFrame extends JFrame implements ActionListener {
     
 
     AppFrame() {
+
+        //add an app icon and title to the window
+        ImageIcon appIcon = new ImageIcon("rss-reader/src/podcast-icon.png");
+        this.setIconImage(appIcon.getImage());
+        this.setTitle("Rory's RSS Podcast Player");
 
         // set up default functioning for window
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,7 +74,7 @@ public class AppFrame extends JFrame implements ActionListener {
                         URI.create(boxText))
                         .build();
 
-                var podResponse = podClient.send(podRequest, BodyHandlers.ofString());
+                HttpResponse<String> podResponse = podClient.send(podRequest, BodyHandlers.ofString());
 
                 // store feed content to string and instantiate a new podcast
                 String podFeed = podResponse.body();
@@ -102,15 +109,18 @@ public class AppFrame extends JFrame implements ActionListener {
         this.remove(button);
         this.remove(textField);
 
-        this.setLayout(new GridLayout(20, 1, 10, 10));
+        this.setLayout(new GridLayout(20, 2, 10, 20));
+
 
         this.add(new JLabel(pFeed.getPodName()));
+        this.add(new JLabel());
 
         JPanel epPanel = new JPanel();
 
         // iterate through each episode and display it as a new JLabel
         for (int i = 0; i < 10; i++) {
-            this.add(new JLabel(this.pFeed.getPodEpisodes()[i] + this.pFeed.getPodLinks()[i]));
+            this.add(new JLabel(this.pFeed.getPodEpisodes()[i]));
+            this.add(new JLabel(this.pFeed.getPodLinks()[i]));
         }
         this.pack();
 
