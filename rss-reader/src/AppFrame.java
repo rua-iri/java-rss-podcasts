@@ -102,13 +102,15 @@ public class AppFrame extends JFrame implements ActionListener {
 
             }
 
-        } 
-        
-        if(e.getSource()==nextButton) {
-            System.out.println("NEXT");
-            episodeStart += 10;
-            System.out.println(episodeStart);
-            System.out.println(pFeed.getNumEpisodes());
+        }
+
+        if (e.getSource() == nextButton) {
+
+            //check that there are enough episodes left
+            if (episodeLimit < pFeed.getNumEpisodes()) {
+                episodeStart += 10;
+            }
+
             loadEpis();
         }
 
@@ -120,9 +122,8 @@ public class AppFrame extends JFrame implements ActionListener {
         // reset frame and add information from the
         this.revalidate();
         this.repaint();
-        this.remove(label);
-        this.remove(button);
-        this.remove(textField);
+        this.getContentPane().removeAll();
+
 
         this.setPreferredSize(new Dimension(350, 700));
 
@@ -133,11 +134,11 @@ public class AppFrame extends JFrame implements ActionListener {
         logoLabel.setIcon(resizeImage(pFeed.getPodIcon()));
         this.add(logoLabel);
 
-        //check if there are still 10 episodes left to list
-        if(episodeStart+10 <= pFeed.getNumEpisodes()) {
+        // check if there are still 10 episodes left to list
+        if (episodeStart + 10 <= pFeed.getNumEpisodes()) {
             episodeLimit = episodeStart + 10;
         } else {
-            episodeLimit = episodeStart;
+            episodeLimit = pFeed.getNumEpisodes();
         }
 
         // iterate through each episode and display it as a new JLabel
@@ -149,9 +150,13 @@ public class AppFrame extends JFrame implements ActionListener {
 
             this.add(podcastEpiPanel);
             // this.add(new JLabel(this.pFeed.getPodLinks()[i]));
+
         }
 
-        //add button for viewing next set of episodes
+
+        // TODO add previous button
+
+        // add button for viewing next set of episodes
         nextButton = new JButton("Next");
         nextButton.setPreferredSize(new Dimension(250, 40));
         nextButton.addActionListener(this);
