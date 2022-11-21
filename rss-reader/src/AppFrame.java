@@ -79,7 +79,8 @@ public class AppFrame extends JFrame implements ActionListener {
                 this.remove(textField);
 
                 this.add(new JLabel(pFeed.getPodName()));
-                this.add(new JLabel(Integer.toString(pFeed.getNumEpisodes())));
+                this.add(new JLabel(pFeed.getPodEpisodes()[23]));
+                this.add(new JLabel(pFeed.getPodLinks()[23]));
                 
                 this.pack();
 
