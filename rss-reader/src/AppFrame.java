@@ -106,9 +106,19 @@ public class AppFrame extends JFrame implements ActionListener {
 
         if (e.getSource() == nextButton) {
 
-            //check that there are enough episodes left
+            // check that there are enough episodes left
             if (episodeLimit < pFeed.getNumEpisodes()) {
                 episodeStart += 10;
+            }
+
+            try {
+
+                //open vlc with the link desired
+                Process process = Runtime.getRuntime().exec("vlc " + pFeed.getPodLinks()[0]);
+
+
+            } catch (Exception err) {
+                // TODO: handle exception
             }
 
             loadEpis();
@@ -123,7 +133,6 @@ public class AppFrame extends JFrame implements ActionListener {
         this.revalidate();
         this.repaint();
         this.getContentPane().removeAll();
-
 
         this.setPreferredSize(new Dimension(350, 700));
 
@@ -152,7 +161,6 @@ public class AppFrame extends JFrame implements ActionListener {
             // this.add(new JLabel(this.pFeed.getPodLinks()[i]));
 
         }
-
 
         // TODO add previous button
 
